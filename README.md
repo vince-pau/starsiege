@@ -23,6 +23,8 @@ Works offline—no server required.
 
 Destroy all enemies to advance to the next level. Dodge incoming fire and catch power-ups to survive!
 
+**Pro Tip:** Shoot falling power-ups to cycle them to a different type before collecting. Plan your strategy!
+
 ## ✨ Features
 
 - **🪐 Solar System Progression** — Each level features a different planet from the solar system (Neptune → Mercury, then the Sun, then randomized!)
@@ -37,12 +39,14 @@ Destroy all enemies to advance to the next level. Dodge incoming fire and catch 
 
 | Icon | Effect | Duration |
 |------|--------|----------|
+| **2x** | Double Shot | 10 seconds |
 | **R** | Rapid Fire | 10 seconds |
-| **S** | Speed Boost | 10 seconds |
-| **D** | Double Shot | 10 seconds |
-| **H** | Shield (3 hits) | 10 seconds |
+| **V** | Speed Boost | 10 seconds |
+| **S** | Shield (3 hits) | 10 seconds |
 
 Catch falling power-ups from defeated enemies. Grab the same type again to reset the timer!
+
+**Power-Up Cycling:** Shoot a falling power-up to randomly change it to a different type. Keep shooting to cycle through types until you get the one you want, then collect it!
 
 ## 🛠️ Technical
 

@@ -1153,6 +1153,19 @@ class PowerUp {
   getBounds() {
     return { x: this.x, y: this.y, width: this.width, height: this.height };
   }
+
+  changeType(newType) {
+    const typeMap = {
+      'doubleShot': { color: '#ff0', label: '2x' },
+      'rapidFire': { color: '#f80', label: 'R' },
+      'speedBoost': { color: '#0ff', label: 'V' },
+      'shield': { color: '#0f0', label: 'S' }
+    };
+    this.type = newType;
+    const info = typeMap[newType];
+    this.color = info.color;
+    this.label = info.label;
+  }
 }
 
 // ============================================================================
@@ -1380,6 +1393,26 @@ class Game {
       }
 
       if (hit) break;
+    }
+
+    // 1b. Player bullets vs power-ups (cycling)
+    const types = ['doubleShot', 'rapidFire', 'speedBoost', 'shield'];
+    for (let i = this.bullets.length - 1; i >= 0; i--) {
+      const bullet = this.bullets[i];
+      if (!bullet.active) continue;
+
+      for (let powerUp of this.powerUps) {
+        if (!powerUp.active) continue;
+
+        if (this.aabbOverlap(bullet.getBounds(), powerUp.getBounds())) {
+          bullet.active = false;
+          // Pick a different type from the current one
+          const otherTypes = types.filter(t => t !== powerUp.type);
+          const newType = otherTypes[Math.floor(Math.random() * otherTypes.length)];
+          powerUp.changeType(newType);
+          break;
+        }
+      }
     }
 
     // 2. Enemy bullets vs player

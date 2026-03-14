@@ -43,6 +43,7 @@ Build a browser-based 2D arcade shooter with Star Siege, an original arcade game
 
 ### Collision Detection
 - **Player bullets vs enemies**: Kill enemy, award points, spawn power-up probabilistically
+- **Player bullets vs power-ups**: Change power-up to a random different type, consume bullet
 - **Enemy bullets vs player**: Damage player (shield absorbs up to 3 hits if active), kill on subsequent hit if no shield
 - **Enemy ship vs player ship**: Kamikaze hit—damages player same as bullet
 - **Player vs power-ups**: Collect, activate effect for 10 seconds
@@ -73,6 +74,16 @@ When dropped, 4 equal-weight power-up types (25% each):
 - Lost if they exit bottom of screen
 - Applying same effect resets its timer (no stacking bonuses)
 - Visual pulse animation + countdown timer display on HUD
+
+### Power-Up Cycling
+- **Mechanic**: Shooting a falling power-up randomly changes it to one of the other 3 types
+- **Behavior**:
+  - Bullet is consumed (deactivated) on hit
+  - Power-up remains in play (continues falling)
+  - Type changes to random type *different* from current (never same type)
+  - Player can shoot multiple times to cycle through types
+- **Strategy**: Allows player to manipulate which power-up to collect before grabbing it
+- **Implementation**: `PowerUp.changeType(newType)` method mutates type/color/label; checked in collision detection (section 1b)
 
 ### Shield Details
 - Visual: Green circle around player, turns yellow after 2nd hit (when 1 hit remains)
@@ -232,9 +243,10 @@ requestAnimationFrame(gameLoop):
 - **Hitbox inset**: 4px from sprite edge for fairer gameplay
 - **Check order per frame**:
   1. Player bullets → enemies
-  2. Enemy bullets → player
-  3. Enemy ships → player ship
-  4. Player → power-ups
+  2. Player bullets → power-ups (cycling)
+  3. Enemy bullets → player
+  4. Enemy ships → player ship
+  5. Player → power-ups (collection)
 
 ## Acceptance Criteria
 
@@ -245,6 +257,7 @@ requestAnimationFrame(gameLoop):
 - [x] All 4 collision types register and resolve correctly
 - [x] Score updates on kills (doubled for diving enemies), +50 per power-up
 - [x] Power-ups drop (12-40% by enemy type), fall, collect, and apply effects for 10s
+- [x] Power-up cycling: Shooting a power-up changes it to a random different type; bullet is consumed
 - [x] Lives system (start with 3, lose 1 per hit, shield absorbs up to 3 hits)
 - [x] Game over when lives reach 0; respawn with invincibility flashing
 - [x] Level complete triggers on all enemies killed, 3s transition screen with bonus calculation
